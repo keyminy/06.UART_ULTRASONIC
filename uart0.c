@@ -60,13 +60,13 @@ void init_uart0(void){
 
 //UART0를 1byte를 전송하는 함수
 void UART0_transmit(uint8_t data){
-	while(!(UCSR0A & 1 << UDRE0)){
+	while(!(UCSR0A & 1 << UDRE0));
 		// 우선순위가 << : 5, & : 8
 		//UDRE0는 5비트위치
 		//데이터가 전송중이면 전송이 끝날때 까지 기다린다.
 		// no operation : NOP
 		UDR0 = data; 
-	}
+	
 }
 
 // UART ISR에서, rx_ready_flag = 1;된후
