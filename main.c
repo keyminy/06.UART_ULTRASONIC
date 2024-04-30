@@ -58,13 +58,13 @@ int main(void)
 	PORTA = 0x00; // led all off
 	
 	/* UART통신, main의 while문 진입전 테스트*/
-	printf("UART TEST!!!!\n");
+	//printf("UART TEST!!!!\n");
 
     while (1) 
     {
 		// UART ISR에서, rx_ready_flag = 1;된후 
 		// command parsing작업 필요
-		pc_command_processing();
+		pc_command_processing(&job);
     }
 }
 

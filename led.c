@@ -13,6 +13,7 @@ void shift_right2left_kepp_ledon(int* pjob);
 void led_all_on_off();
 void flower_on(int* pjob);
 void flower_off(int* pjob);
+void flower_on2();
 
 void led_all_on_off(){
 	 static int led_toggle = 0;
@@ -77,7 +78,7 @@ void shift_right2left_kepp_ledon(int* pjob){
 		if(i >= 8){
 			i=0; //circulation
 			PORTA = 0x00;
-			*pjob = FLOWER_ON; // LEFT2RIGHT로 넘어갑니다
+			*pjob = LEFT2RIGHT; // LEFT2RIGHT로 넘어갑니다
 		}else{
 			// shifting logic
 			PORTA |= 0b10000000 >> i++; // 1.shift right , 2. i++해줌
@@ -124,6 +125,42 @@ void flower_on(int* pjob){
 
 }
 
+void flower_on2(){
+	static uint8_t bit_value = 0b00010000; //값을 유지해야한다
+	static int i =0;
+	
+		while(1){
+			if(shift_timer >= 300){
+			shift_timer = 0;
+			if(i >= 4){
+				i = 0;
+				PORTA = 0x00;
+				//*pjob = FLOWER_OFF;
+				break;
+			}else{
+				PORTA |= bit_value<<i | bit_value>>i+1;
+				i += 1;
+			}
+		}
+	}
+}
+
+void flower_off2(){
+	static uint8_t bit_value = 0b01111111; //값을 유지해야한다
+	static int i =0;
+	
+	if(shift_timer >= 300){
+		shift_timer = 0;
+		if(i >= 4){
+			i = 0;
+			PORTA = 0x00;
+			//*pjob = LEFT2RIGHT;
+			}else{
+			PORTA &= bit_value>>i & bit_value<<i+1;
+			i += 1;
+		}
+	}
+}
 
 void flower_off(int* pjob){
 

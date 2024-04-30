@@ -10,6 +10,8 @@
 // led
 extern void shift_left2right_keep_ledon(int* pjob);
 extern void shift_right2left_kepp_ledon(int* pjob);
+extern void flower_on2();
+
 
 // button
 extern void init_button(void);
@@ -20,7 +22,7 @@ extern void init_uart0(void);
 //uart
 extern void init_uart0(void);
 extern void UART0_transmit(uint8_t data);
-extern void pc_command_processing(void);
+extern void pc_command_processing(int* pjob);
 
 
 extern volatile uint32_t shift_timer; //led.c에서도 쓰기 위위함

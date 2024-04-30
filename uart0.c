@@ -13,7 +13,6 @@
 // data는 8bit를하고, none parity방식으로 할 것
 
 // 3.RX인터럽트(수신) : interrupt를 활성화 시킬거야
-
 // 인터럽트벡터 서비스루틴은 선언할 필요없고,제어만 해주면됨
 // ISR : HW와 SW의 만남의 장소, 인터럽트가 뜨면 여기로 들어와라
 // 1byte를 수신 할때 마다 이곳으로 들어온다.
@@ -23,8 +22,9 @@ ISR(USART0_RX_vect){
 	// 1byte를 읽어 처리할 로직을 여기넣음
 	uint8_t data;
 	
-	PORTA = 0XFF;
-	//printf("USART0 RX어쩌꾸"); //잠깐 확인작업하고 걷어내야한다
+	//PORTA = 0XFF; //interrupt가 떳는지 확인
+	
+	//printf("USART0 RX어쩌구"); //잠깐 확인작업하고 걷어내야한다
 	//이거때문에 한 char당 1ms걸리는데, 그 동안 다른 인터럽트를 못받음
 	
 	data = UDR0; //UART0의 hardware register(UDR0)로 부터 1byte를 읽어간다.
@@ -71,10 +71,24 @@ void UART0_transmit(uint8_t data){
 
 // UART ISR에서, rx_ready_flag = 1;된후
 // command parsing작업 필요
-void pc_command_processing(void){
+void pc_command_processing(int* pjob){
 	if(rx_ready_flag){
 		// rx_ready_flag = 1; 데이터가 '\n'까지 들어왔다는 의미임
 		rx_ready_flag = 0;
 		printf("%s\n",rx_buff);
+		
+		if(strncmp(rx_buff,"led_all_on",strlen("led_all_on")) == 0){
+			PORTA = 0xff;
+		}else if(strncmp(rx_buff,"led_all_off",strlen("led_all_off")) == 0){
+			PORTA = 0x00;
+		}}else if(strncmp(rx_buff,"flower_on2",strlen("flower_on2"))==0){
+			flower_on2();
+		}else if(strncmp(rx_buff,"flower_off2",strlen("flower_off2")){
+			
+		}
+		/*void shift_left2right_keep_ledon(int *pjob);
+		void shift_right2left_keep_ledon(int *pjob);
+		void flower_on(int *pjob);
+		void flower_off(int *pjob); */
 	}
 }
