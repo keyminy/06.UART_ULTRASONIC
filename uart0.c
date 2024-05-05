@@ -1,9 +1,6 @@
-﻿#define F_CPU 16000000UL
-#include <avr/io.h>
-#include <util/delay.h>
-#include <avr/interrupt.h>
-
+﻿#include "def.h"
 #include "uart0.h"
+#include "extern.h"
 
 // 1.전송속도 : 9600bps(총 byte수 : 
 // 1초에 9600bps를 보낼수있으니까, 총 byte글자수는 9600/10 --> 960자
@@ -71,20 +68,28 @@ void UART0_transmit(uint8_t data){
 
 // UART ISR에서, rx_ready_flag = 1;된후
 // command parsing작업 필요
-void pc_command_processing(int* pjob){
+void pc_command_processing(){
 	if(rx_ready_flag){
 		// rx_ready_flag = 1; 데이터가 '\n'까지 들어왔다는 의미임
 		rx_ready_flag = 0;
 		printf("%s\n",rx_buff);
 		
 		if(strncmp(rx_buff,"led_all_on",strlen("led_all_on")) == 0){
-			PORTA = 0xff;
+			LED_PORT = 0xff;
+			job = 5;
 		}else if(strncmp(rx_buff,"led_all_off",strlen("led_all_off")) == 0){
-			PORTA = 0x00;
-		}}else if(strncmp(rx_buff,"flower_on2",strlen("flower_on2"))==0){
-			flower_on2();
-		}else if(strncmp(rx_buff,"flower_off2",strlen("flower_off2")){
-			
+			LED_PORT = 0x00;
+			job = 5;
+		}else if(strncmp(rx_buff,"led_all_on_off",strlen("led_all_on_off"))==0){
+			job = 4;
+		}else if(strncmp(rx_buff,"shift_left22right_keep_ledon",strlen("shift_left22right_keep_ledon")) == 0){
+			job = 0;
+		}else if(strncmp(rx_buff,"shift_right22left_keep_ledon",strlen("shift_right22left_keep_ledon")) == 0){
+			job = 1;
+		}else if(strncmp(rx_buff,"flower_on2",strlen("flower_on2"))==0){
+			job = 2;
+		}else if(strncmp(rx_buff,"flower_off2",strlen("flower_off2"))==0){
+			job = 3;
 		}
 		/*void shift_left2right_keep_ledon(int *pjob);
 		void shift_right2left_keep_ledon(int *pjob);

@@ -9,5 +9,6 @@ volatile uint8_t rx_ready_flag = 0; // 완전한 문장(\n)을 만나면 1로 se
 
 void init_uart0(void);
 void UART0_transmit(uint8_t data);
+void pc_command_processing(void);
 
 #endif /* UART0_H_ */

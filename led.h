@@ -8,11 +8,14 @@
 #ifndef LED_H_
 #define LED_H_
 
-#define F_CPU 16000000UL
-#include <avr/io.h> // PORTA DDRA 등의 symbom이 정의 되어 있다.
-#include <util/delay.h> // _delay_ms 등의 함수가 들어있다.
-
-
-
+void shift_left2right_keep_ledon(int* pjob);
+void shift_right2left_keep_ledon(int* pjob);
+void shift_left22right_keep_ledon();
+void shift_right22left_keep_ledon();
+void led_all_on_off();
+void flower_on(int* pjob);
+void flower_off(int* pjob);
+void flower_on2();
+void flower_off2();
 
 #endif /* LED_H_ */
