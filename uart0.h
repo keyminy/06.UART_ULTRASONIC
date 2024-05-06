@@ -7,6 +7,11 @@ volatile uint8_t rx_buff[100];
 //기본 : 0으로 set해줍니다
 volatile uint8_t rx_ready_flag = 0; // 완전한 문장(\n)을 만나면 1로 set된다.
 
+volatile int rear=0;   // ISR(USART0_RX_vect) 저장 하는 index
+volatile int front=0;  // pc_command_processing에서 꺼내가는 index
+volatile char rx_Quebuff[20][40]; 
+
+
 void init_uart0(void);
 void UART0_transmit(uint8_t data);
 void pc_command_processing(void);

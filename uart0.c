@@ -29,11 +29,13 @@ ISR(USART0_RX_vect){
 	
 	// 넘어온 data가 올바른지 check로직 필요
 	if(data == '\r' || data == '\n'){
-		rx_buff[i] = '\0'; //문장의 끝을 알리는 null sign을 insert함.
+		rx_Quebuff[rear][i] = '\0'; //문장의 끝을 알리는 null sign을 insert함.
 		i = 0; // i를 초기화 : 다음 문장을 입력받을 준비
+		rear++;
+		rear %= 20;
 		rx_ready_flag = 1; //완전한 문장이 들어왔고, 읽었다는 의미
 	}else{
-		rx_buff[i++] = data; 
+		rx_Quebuff[rear][i++] = data; 
 	}
 }
 
@@ -69,26 +71,30 @@ void UART0_transmit(uint8_t data){
 // UART ISR에서, rx_ready_flag = 1;된후
 // command parsing작업 필요
 void pc_command_processing(){
+	char* cmd;
 	if(rx_ready_flag){
 		// rx_ready_flag = 1; 데이터가 '\n'까지 들어왔다는 의미임
 		rx_ready_flag = 0;
-		printf("%s\n",rx_buff);
+		cmd = rx_Quebuff[front];
+		printf("%s\n",cmd);
 		
-		if(strncmp(rx_buff,"led_all_on",strlen("led_all_on")) == 0){
+		front = (front+1) % 20;
+		
+		if(strncmp(cmd,"led_all_on",strlen("led_all_on")) == 0){
 			LED_PORT = 0xff;
 			job = 5;
-		}else if(strncmp(rx_buff,"led_all_off",strlen("led_all_off")) == 0){
+		}else if(strncmp(cmd,"led_all_off",strlen("led_all_off")) == 0){
 			LED_PORT = 0x00;
 			job = 5;
-		}else if(strncmp(rx_buff,"led_all_on_off",strlen("led_all_on_off"))==0){
+		}else if(strncmp(cmd,"led_all_on_off",strlen("led_all_on_off"))==0){
 			job = 4;
-		}else if(strncmp(rx_buff,"shift_left22right_keep_ledon",strlen("shift_left22right_keep_ledon")) == 0){
+		}else if(strncmp(cmd,"shift_left22right_keep_ledon",strlen("shift_left22right_keep_ledon")) == 0){
 			job = 0;
-		}else if(strncmp(rx_buff,"shift_right22left_keep_ledon",strlen("shift_right22left_keep_ledon")) == 0){
+		}else if(strncmp(cmd,"shift_right22left_keep_ledon",strlen("shift_right22left_keep_ledon")) == 0){
 			job = 1;
-		}else if(strncmp(rx_buff,"flower_on2",strlen("flower_on2"))==0){
+		}else if(strncmp(cmd,"flower_on2",strlen("flower_on2"))==0){
 			job = 2;
-		}else if(strncmp(rx_buff,"flower_off2",strlen("flower_off2"))==0){
+		}else if(strncmp(cmd,"flower_off2",strlen("flower_off2"))==0){
 			job = 3;
 		}
 		/*void shift_left2right_keep_ledon(int *pjob);

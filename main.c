@@ -33,7 +33,7 @@ int main(void)
 	PORTA = 0x00; // led all off
 	
 	/* UART통신, main의 while문 진입전 테스트*/
-	//printf("UART TEST!!!!\n");
+	printf("UART TEST!!!!\n");
 
     while (1) 
     {
@@ -43,9 +43,6 @@ int main(void)
 		
 		switch(job)
 		{
-			case ON_OFF:
-			led_all_on_off();
-			break;
 			case LEFT2RIGHT :
 			shift_left22right_keep_ledon();
 			break;
@@ -57,6 +54,9 @@ int main(void)
 			break;
 			case FLOWER_OFF :
 			flower_off2();
+			break;
+			case ON_OFF:
+			led_all_on_off();
 			break;
 			default:
 			break;
