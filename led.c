@@ -15,7 +15,7 @@ void led_all_on_off(){
 	if(ms_count >= 1000){
 		//hardware적으로 뜨기때문에 값이 툭 튈수도 있어요 그래서 >=로 하기(==대신)
 		ms_count = 0; // clear
-		led_toggle = !led_toggle; // 1혹은 0의 값
+		led_toggle = !led_toggle; // 1혹은 0의 값l
 		if(led_toggle){
 			PORTA = 0xff;
 		}
