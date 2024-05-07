@@ -61,6 +61,11 @@ void UART1_transmit(uint8_t data){
 // command parsing작업 필요
 void bit_command_processing()
 {
+	#if 1 // 이 code는 test용입니다. 사용후 반드시 삭제할 것.
+		// 100ms마다 1개씩 데이터를 쏜다고 해봅시다.
+		UART1_transmit('a'); //'a' = 0x61(아스키), 0110_0001
+		_delay_ms(500);
+	#endif
 	char* cmd;
 	if( front1 != rear1){
 		cmd = rx1_Quebuff[front1];
