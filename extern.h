@@ -29,6 +29,9 @@ extern void init_uart0(void);
 extern void UART0_transmit(uint8_t data);
 extern void pc_command_processing(void);
 
+// uart1
+extern void init_uart1(void);
+extern void bit_command_processing(void);
 
 extern volatile uint32_t shift_timer; //led.c에서도 쓰기 위위함
 extern volatile uint32_t ms_count;

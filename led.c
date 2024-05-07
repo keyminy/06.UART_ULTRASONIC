@@ -9,9 +9,8 @@
 #include "def.h"
 
 void led_all_on_off(){
-	 static int led_toggle = 0;
+    int led_toggle = 0;
 	 //함수가 종료되더라도 update된 값을 유지하게 static
-	 
 	if(ms_count >= 1000){
 		//hardware적으로 뜨기때문에 값이 툭 튈수도 있어요 그래서 >=로 하기(==대신)
 		ms_count = 0; // clear
@@ -23,7 +22,7 @@ void led_all_on_off(){
 			PORTA = 0x00;
 		}
 	}
-
+	
 }
 
 void shift_left2right_keep_ledon(int* pjob){

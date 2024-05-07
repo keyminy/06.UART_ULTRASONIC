@@ -8,8 +8,7 @@
 #include "def.h"
 #include "extern.h"
 
-void init_timer0();
-void init_uart0(void);
+
 
 //stidio.h에 file구조체가 들어있다
 // 1. for printf
@@ -21,6 +20,7 @@ int main(void)
 {
 	init_timer0();
 	init_uart0();
+	init_uart1();
 	stdout = &OUTPUT; // 2. printf가 동작되도록 stdout에 OUTPUT파일 포인터를 assign한다.
 	// fprintf(stdout,"test"); == printf("test\n");
 	// scanf("%s",buff); --> stdin
@@ -40,6 +40,7 @@ int main(void)
 		// UART ISR에서, rx_ready_flag = 1;된후 
 		// command parsing작업 필요
 		pc_command_processing();
+		bit_command_processing();
 		
 		switch(job)
 		{

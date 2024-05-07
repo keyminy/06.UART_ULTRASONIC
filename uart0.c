@@ -25,7 +25,7 @@ ISR(USART0_RX_vect){
 		i = 0; // i를 초기화 : 다음 문장을 입력받을 준비
 		rear++;
 		rear %= 20;
-		}else{
+	}else{
 		rx_Quebuff[rear][i++] = data;
 	}
 }
@@ -62,28 +62,25 @@ void UART0_transmit(uint8_t data){
 void pc_command_processing()
 {
 	char* cmd;
-
 	if( front != rear){
 		cmd = rx_Quebuff[front];
 		printf("%s\n",cmd);
-		
-		front = (front+1) % 20;
-		
+		front = (front+1) % 20;	
 		if(strncmp(cmd,"led_all_on",strlen("led_all_on")) == 0){
 			LED_PORT = 0xff;
 			job = 5;
-			}else if(strncmp(cmd,"led_all_off",strlen("led_all_off")) == 0){
+		}else if(strncmp(cmd,"led_all_off",strlen("led_all_off")) == 0){
 			LED_PORT = 0x00;
 			job = 5;
-			}else if(strncmp(cmd,"led_all_on_off",strlen("led_all_on_off"))==0){
+		}else if(strncmp(cmd,"led_all_on_off",strlen("led_all_on_off"))==0){
 			job = 4;
-			}else if(strncmp(cmd,"shift_left22right_keep_ledon",strlen("shift_left22right_keep_ledon")) == 0){
+		}else if(strncmp(cmd,"shift_left22right_keep_ledon",strlen("shift_left22right_keep_ledon")) == 0){
 			job = 0;
-			}else if(strncmp(cmd,"shift_right22left_keep_ledon",strlen("shift_right22left_keep_ledon")) == 0){
+		}else if(strncmp(cmd,"shift_right22left_keep_ledon",strlen("shift_right22left_keep_ledon")) == 0){
 			job = 1;
-			}else if(strncmp(cmd,"flower_on2",strlen("flower_on2"))==0){
+		}else if(strncmp(cmd,"flower_on2",strlen("flower_on2"))==0){
 			job = 2;
-			}else if(strncmp(cmd,"flower_off2",strlen("flower_off2"))==0){
+		}else if(strncmp(cmd,"flower_off2",strlen("flower_off2"))==0){
 			job = 3;
 		}
 	}
