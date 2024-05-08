@@ -63,10 +63,11 @@ void bit_command_processing()
 {
 	#if 1 // 이 code는 test용입니다. 사용후 반드시 삭제할 것.
 		// 100ms마다 1개씩 데이터를 쏜다고 해봅시다.
-		UART1_transmit('_'); //'_' =95(10진) = 0x5F = 0101_1111
-		_delay_ms(500);
-		UART1_transmit('W'); //'W' =87(10진)= 0x57 = 0101_0111
-		_delay_ms(500);
+		UART1_transmit('9'); 
+		UART1_transmit('5');
+		UART1_transmit('8');
+		UART1_transmit('7');
+		_delay_ms(50);
 	#endif
 	char* cmd;
 	if( front1 != rear1){
