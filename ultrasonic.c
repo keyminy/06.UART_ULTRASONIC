@@ -29,16 +29,18 @@ ISR(INT4_vect){
 		 // 640us / 58us = 11cm
 		 // 1cm : 58us가 소요됨(왕복시간 반영)
 		 sprintf(scm,"dis %dcm\n",ultrasonic_distance/58); //cm단위로 환산해준다
-		 distance = ultrasonic_distance/58;
-		 if(distance <= 5){
-			LED_PORT = 0xff;
-		 }else if(distance >=3 && distance <4){
-			 LED_PORT = 0x07;
-		 }else if(distance >= 2 && distance <3){
-			 LED_PORT= 0x03;
-		 }else if(distance >= 1 && distance < 2){
-			 LED_PORT = 0x01;
-		 }else {
+		 double distance =  ultrasonic_distance/58;
+		 if(distance > 4 && distance <= 5){
+			LED_PORT = 0x1f;
+		 }else if(distance >3 && distance <= 4){
+			 LED_PORT = 0x0f;
+		 }else if(distance > 2 && distance <= 3){
+			 LED_PORT= 0x07;
+		 }else if(distance > 1 && distance <= 2){
+			 LED_PORT = 0x03;
+		 }else if(distance > 0 && distance <= 1){
+			LED_PORT = 0x01;
+		}else {
 			 LED_PORT = 0x00;
 		 }
 	}
