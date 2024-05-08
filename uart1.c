@@ -61,18 +61,10 @@ void UART1_transmit(uint8_t data){
 // command parsing작업 필요
 void bit_command_processing()
 {
-	#if 1 // 이 code는 test용입니다. 사용후 반드시 삭제할 것.
-		// 100ms마다 1개씩 데이터를 쏜다고 해봅시다.
-		UART1_transmit('9'); 
-		UART1_transmit('5');
-		UART1_transmit('8');
-		UART1_transmit('7');
-		_delay_ms(50);
-	#endif
 	char* cmd;
 	if( front1 != rear1){
 		cmd = rx1_Quebuff[front1];
-		printf("%s\n",cmd);
+		// printf("%s\n",cmd);
 		front1 = (front1+1) % 20;
 		if(strncmp(cmd,"led_all_on",strlen("led_all_on")) == 0){
 			LED_PORT = 0xff;

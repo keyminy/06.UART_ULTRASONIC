@@ -14,17 +14,21 @@
 // ISR : HW와 SW의 만남의 장소, 인터럽트가 뜨면 여기로 들어와라
 // 1byte를 수신 할때 마다 이곳으로 들어온다.
 ISR(USART0_RX_vect){
-	static int i=0;
+	// 최적화 방지를위해 ISR내에서는 volatile키워드
+	volatile static int i=0;
 	// 1byte를 읽어 처리할 로직을 여기넣음
-	uint8_t data;
+	volatile uint8_t data;
 	
 	data = UDR0; //UART0의 hardware register(UDR0)로 부터 1byte를 읽어간다.
-
+	//printf("%c\n",data); // 하나찍을때 마다 1ms (다음 데이터 못받을수잇으므로 하지마라)
 	if(data == '\r' || data == '\n'){
 		rx_Quebuff[rear][i] = '\0'; //문장의 끝을 알리는 null sign을 insert함.
 		i = 0; // i를 초기화 : 다음 문장을 입력받을 준비
 		rear++;
-		rear %= 20;
+		rear %= COMMAND_NUMBER;
+		
+		// Is queue full?
+		
 	}else{
 		rx_Quebuff[rear][i++] = data;
 	}
@@ -63,9 +67,12 @@ void pc_command_processing()
 {
 	char* cmd;
 	if( front != rear){
-		cmd = rx_Quebuff[front];
-		printf("%s\n",cmd);
+		cmd = rx_Quebuff[front]; //&rx_buff[front][0]로 // 2차원 배열의 0번째 주소를 넘겨줌 
+		printf("%s\n",cmd); 
 		front = (front+1) % 20;	
+		
+		// Is queue full?
+		
 		if(strncmp(cmd,"led_all_on",strlen("led_all_on")) == 0){
 			LED_PORT = 0xff;
 			job = 5;

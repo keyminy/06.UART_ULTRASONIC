@@ -16,7 +16,6 @@
 #include <stdio.h>
 #include <string.h>
 
-
 #define LED_DDR DDRA
 #define LED_PORT PORTA
 
@@ -25,5 +24,8 @@
 #define FLOWER_ON 2
 #define FLOWER_OFF 3
 #define ON_OFF 4
+
+#define COMMAND_NUMBER 20
+#define COMMAND_LENGTH 40
 
 #endif /* DEF_H_ */

@@ -26,6 +26,7 @@ int main(void)
 	// scanf("%s",buff); --> stdin
 	// fgets(input,100,stdin); //여기서 stdin이 가리키는 것은 키보드입니다.
 	
+	init_ultrasonic(); // sei전에 초음파관련 initialize
 	sei(); // 전역적으로 인터럽트를 허용하겠다
 	
 	//led A레지스터
@@ -41,6 +42,7 @@ int main(void)
 		// command parsing작업 필요
 		pc_command_processing();
 		bit_command_processing();
+		ultrasonic_distance_check();
 		
 		switch(job)
 		{

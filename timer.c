@@ -13,6 +13,8 @@ volatile uint32_t ms_count = 0; // ms count
 
 //타이머 관련, 전역변수로 선언
 volatile uint32_t shift_timer = 0;
+//1초에 한번씩 trigger를 쏘겟다
+volatile uint32_t ultrasonic_trigger_timer = 0; // trigger를 동작시키는 주기 : 1000ms
 
 void init_uart0(void);
 
@@ -44,4 +46,5 @@ ISR(TIMER0_OVF_vect){
 	ms_count++;
 	//ms_count delay없애는 작업필요함
 	shift_timer++;
+	ultrasonic_trigger_timer++;
 }

@@ -33,6 +33,12 @@ extern void pc_command_processing(void);
 extern void init_uart1(void);
 extern void bit_command_processing(void);
 
+// main.c입장에서는 자기 파일에 선언된게아니라 ultra.c에 선언되어있으니까 extern
+extern void ultrasonic_trigger();
+extern void init_ultrasonic();
+extern void ultrasonic_distance_check();
+extern volatile uint32_t ultrasonic_trigger_timer; // trigger를 동작시키는 주기 : 1000ms
+
 extern volatile uint32_t shift_timer; //led.c에서도 쓰기 위위함
 extern volatile uint32_t ms_count;
 
